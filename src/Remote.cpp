@@ -24,6 +24,7 @@ Remote::Remote() {
 void Remote::handle() {
     uint8_t pipe;
     if (_radio->available(&pipe)) {
+        lastPacket = millis();
         ControlPacket packet;
         _radio->read(&packet, sizeof(packet));
         _throttle = packet.throttle;
@@ -41,6 +42,10 @@ void Remote::setBattery(float battery) {
 
 void Remote::setSpeed(float speed) {
     _speed = speed;
+}
+
+bool Remote::isConnected() {
+    return !((millis() - lastPacket) >= 100);
 }
 
 void Remote::writeAckPacket() {

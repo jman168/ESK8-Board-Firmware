@@ -24,8 +24,9 @@ void loop() {
   
   motorController->setThrottle(remote->getThrottle());
   motorController->update();
-  Serial.println(battery->getVoltage());
-  
+
+  Serial.println(remote->isConnected());
+
   remote->setSpeed(encoder->getSpeedMPH());
   remote->setBattery(battery->getCharge());
 }
