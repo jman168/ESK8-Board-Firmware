@@ -1,9 +1,18 @@
 #include <Arduino.h>
 
+#include "Remote.h"
+
+Remote *remote;
+
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(115200);
+
+  remote = new Remote();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  remote->handle();
+  Serial.println(remote->getThrottle());
+  remote->setSpeed((remote->getThrottle() + 1.0)*15.0);
+  remote->setBattery((remote->getThrottle() + 1.0)*0.5);
 }
