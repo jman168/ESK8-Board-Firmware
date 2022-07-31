@@ -31,6 +31,42 @@ const uint8_t PREV_HALL_STATE[7] = {
     0b00000110, // 00000110
   };
 
+/**
+ * @brief Initializes the encoder.
+ * 
+ */
+void encoder_init();
+
+/**
+ * @brief Gets the position of the board in meters.
+ * NOTE: This is NOT the distance traveled.
+ * 
+ * @return float 
+ */
+float encoder_get_position_meters();
+
+/**
+ * @brief Gets the position of the board in miles.
+ * NOTE: This is NOT the distance traveled.
+ * 
+ * @return float 
+ */
+float encoder_get_position_miles();
+
+/**
+ * @brief Gets the speed in meters per second.
+ * 
+ * @return float 
+ */
+float encoder_get_speed_mps();
+
+/**
+ * @brief Gets the speed in miles per hour.
+ * 
+ * @return float 
+ */
+float encoder_get_speed_mph();
+
 class Encoder {
     public:
         Encoder();

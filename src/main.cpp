@@ -6,15 +6,13 @@
 #include "Battery.h"
 
 Remote *remote;
-Encoder *encoder;
 MotorController *motorController;
 
 void setup() {
   Serial.begin(115200);
 
   remote = new Remote();
-  encoder = new Encoder();
-  motorController = new MotorController(encoder);
+  motorController = new MotorController();
 }
 
 void loop() {
@@ -25,6 +23,6 @@ void loop() {
 
   Serial.println(remote->isConnected());
 
-  remote->setSpeed(encoder->getSpeedMPH());
+  remote->setSpeed(encoder_get_speed_mph());
   remote->setBattery(battery_get_charge());
 }

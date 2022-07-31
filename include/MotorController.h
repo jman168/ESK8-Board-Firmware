@@ -18,15 +18,13 @@
 
 class MotorController {
     public:
-        MotorController(Encoder *encoder);
+        MotorController();
 
         void update();
         void setVoltage(double voltage);
         void setThrottle(double throttle);
 
     private:
-        Encoder *_encoder;
-
         double _throttle;
 
     private:

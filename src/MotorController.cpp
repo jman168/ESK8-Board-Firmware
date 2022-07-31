@@ -1,14 +1,12 @@
 #include "MotorController.h"
 
-MotorController::MotorController(Encoder *encoder) {
-    _encoder = encoder;
-
+MotorController::MotorController() {
     ledcAttachPin(MOTOR_PIN, PWM1_CH);
     ledcSetup(PWM1_CH, PWM1_FREQ, PWM1_RES);
 }
 
 void MotorController::update() {
-    setVoltage(clamp(mpsToVoltage(_encoder->getSpeedMPS()) + _throttle*MAX_DELTA_V, -MAX_VOLTAGE, MAX_VOLTAGE));
+    setVoltage(clamp(mpsToVoltage(encoder_get_speed_mps()) + _throttle*MAX_DELTA_V, -MAX_VOLTAGE, MAX_VOLTAGE));
 }
 
 void MotorController::setVoltage(double voltage) {
