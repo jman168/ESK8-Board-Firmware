@@ -8,14 +8,12 @@
 Remote *remote;
 Encoder *encoder;
 MotorController *motorController;
-Battery *battery;
 
 void setup() {
   Serial.begin(115200);
 
   remote = new Remote();
   encoder = new Encoder();
-  battery = new Battery();
   motorController = new MotorController(encoder);
 }
 
@@ -28,5 +26,5 @@ void loop() {
   Serial.println(remote->isConnected());
 
   remote->setSpeed(encoder->getSpeedMPH());
-  remote->setBattery(battery->getCharge());
+  remote->setBattery(battery_get_charge());
 }
