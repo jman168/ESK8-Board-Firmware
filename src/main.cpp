@@ -6,20 +6,22 @@
 #include "Battery.h"
 
 Remote *remote;
-MotorController *motorController;
 
 void setup() {
   Serial.begin(115200);
 
+  battery_init();
+  encoder_init();
+  motor_controller_init();
+
   remote = new Remote();
-  motorController = new MotorController();
 }
 
 void loop() {
   remote->handle();
   
-  motorController->setThrottle(remote->getThrottle());
-  motorController->update();
+  motor_controller_set_throttle(remote->getThrottle());
+  motor_controller_update();
 
   Serial.println(remote->isConnected());
 
