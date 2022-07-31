@@ -3,37 +3,39 @@
 #include <SPI.h>
 #include "RF24.h"
 
-struct AKCPacket {
-    float speed;
-    float battery;
-};
+/**
+ * @brief Initializes the remote.
+ * 
+ */
+void remote_init();
 
-struct ControlPacket {
-    float throttle;
-};
+/**
+ * @brief Updates the remote. Checks for packets, sends most recent speed measurements, etc...
+ * 
+ */
+void remote_update();
 
-class Remote {
-    public:
-        Remote();
+/**
+ * @brief Gets the throttle from the remote.
+ * 
+ * @return float 
+ */
+float remote_get_throttle();
 
-        void handle();
+/**
+ * @brief Sets the battery level (from 0.0 to 1.0) to be sent to the remote.
+ * 
+ */
+void remote_set_battery(float battery);
 
-        float getThrottle();
-        void setBattery(float battery);
-        void setSpeed(float speed);
-        bool isConnected();
+/**
+ * @brief Sets the speed (in miles per hour) to be sent to the remote.
+ * 
+ */
+void remote_set_speed(float speed);
 
-    private:
-        RF24 *_radio;
-
-        float _throttle;
-        float _battery = 0.0;
-        float _speed = 0.0;
-        unsigned long lastPacket = 0;
-
-        const char _boardAddr[6] = "BESK8"; // board address
-        const char _remoteAddr[6] = "RESK8"; // remote address
-
-    private:
-        void writeAckPacket();
-};
+/**
+ * @brief Gets if a remote is connected. This function returns true if it has received a packet from the remote in the last 100ms. This function should be used for safety to prevent run away boards.
+ * 
+ */
+bool remote_is_connected();

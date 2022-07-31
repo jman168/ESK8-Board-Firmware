@@ -7,14 +7,22 @@
 #define MAX_BATTERY_VOLTAGE 24.8
 #define MIN_BATTERY_VOLTAGE 18.0
 
-class Battery {
-    public:
-        double getVoltage();
+/**
+ * @brief Initialized battery.
+ * 
+ */
+void battery_init();
 
-        /**
-         * @brief returns the charge of the battery from 0.0 to 1.0
-         * 
-         * @return double 
-         */
-        double getCharge();
-};
+/**
+ * @brief Gets battery voltage.
+ * 
+ * @return float 
+ */
+float battery_get_voltage();
+
+/**
+ * @brief Gets battery state of charge from 0.0 to 1.0
+ * 
+ * @return float 
+ */
+float battery_get_charge();

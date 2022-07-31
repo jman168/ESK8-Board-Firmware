@@ -31,26 +31,38 @@ const uint8_t PREV_HALL_STATE[7] = {
     0b00000110, // 00000110
   };
 
-class Encoder {
-    public:
-        Encoder();
+/**
+ * @brief Initializes the encoder.
+ * 
+ */
+void encoder_init();
 
-        double getPositionMeters();
-        double getPositionMiles();
+/**
+ * @brief Gets the position of the board in meters.
+ * NOTE: This is NOT the distance traveled.
+ * 
+ * @return float 
+ */
+float encoder_get_position_meters();
 
-        double getSpeedMPS();
-        double getSpeedMPH();
+/**
+ * @brief Gets the position of the board in miles.
+ * NOTE: This is NOT the distance traveled.
+ * 
+ * @return float 
+ */
+float encoder_get_position_miles();
 
-    private:
-        uint8_t _currentRotorState;
-        unsigned long _lastCount = 0;
-        long _rotorPosition = 0;
-        double _countsPerSecond = 0;
+/**
+ * @brief Gets the speed in meters per second.
+ * 
+ * @return float 
+ */
+float encoder_get_speed_mps();
 
-    private:
-
-        void updateEncoder();
-
-        uint8_t getRotorState();
-};
-
+/**
+ * @brief Gets the speed in miles per hour.
+ * 
+ * @return float 
+ */
+float encoder_get_speed_mph();

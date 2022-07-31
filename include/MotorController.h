@@ -16,21 +16,28 @@
 #define MOTOR_KV 0.51306 // note this is meters per second per volt NOT rpm per volt
 #define MAX_VOLTAGE 12.0
 
-class MotorController {
-    public:
-        MotorController(Encoder *encoder);
+/**
+ * @brief Initializes the motor controller.
+ * 
+ */
+void motor_controller_init();
 
-        void update();
-        void setVoltage(double voltage);
-        void setThrottle(double throttle);
+/**
+ * @brief Updates the motor controller (should be called periodically to ensure smooth operation).
+ * 
+ */
+void motor_controller_update();
 
-    private:
-        Encoder *_encoder;
+/**
+ * @brief Sets the voltage applied to the motor controller.
+ * 
+ * @param voltage 
+ */
+void motor_controller_set_voltage(float voltage);
 
-        double _throttle;
-
-    private:
-        float mpsToVoltage(float mps);
-
-        static float clamp(float input, float minV, float maxV);
-};
+/**
+ * @brief Applies a throttle to the motor controller. This approximates a torque or a current applied to the motor phase.
+ * 
+ * @param throttle 
+ */
+void motor_controller_set_throttle(float throttle);

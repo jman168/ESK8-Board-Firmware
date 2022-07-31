@@ -5,28 +5,23 @@
 #include "MotorController.h"
 #include "Battery.h"
 
-Remote *remote;
-Encoder *encoder;
-MotorController *motorController;
-Battery *battery;
-
 void setup() {
   Serial.begin(115200);
 
-  remote = new Remote();
-  encoder = new Encoder();
-  battery = new Battery();
-  motorController = new MotorController(encoder);
+  battery_init();
+  encoder_init();
+  motor_controller_init();
+  remote_init();
 }
 
 void loop() {
-  remote->handle();
+  remote_update();
   
-  motorController->setThrottle(remote->getThrottle());
-  motorController->update();
+  motor_controller_set_throttle(remote_get_throttle());
+  motor_controller_update();
 
-  Serial.println(remote->isConnected());
+  Serial.println(remote_is_connected());
 
-  remote->setSpeed(encoder->getSpeedMPH());
-  remote->setBattery(battery->getCharge());
+  remote_set_speed(encoder_get_speed_mph());
+  remote_set_battery(battery_get_charge());
 }
