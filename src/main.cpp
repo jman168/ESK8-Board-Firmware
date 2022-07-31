@@ -18,7 +18,8 @@ void loop() {
   remote_update();
   
   motor_controller_set_throttle(remote_get_throttle());
-  motor_controller_update();
+  motor_controller_set_stop(!remote_is_connected());
+  motor_controller_update();  
 
   remote_set_speed(encoder_get_speed_mph());
   remote_set_battery(battery_get_charge());
