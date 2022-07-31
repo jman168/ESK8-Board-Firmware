@@ -40,6 +40,8 @@ void motor_controller_update() {
 }
 
 void motor_controller_set_voltage(float voltage) {
+    voltage = clamp(voltage, -MAX_VOLTAGE, MAX_VOLTAGE);
+    
     float power = ( voltage/BATTERY_VOLTAGE + 1.0 ) / 2.0;
     int MS = MIN_MS + (MAX_MS-MIN_MS) * power;
 
@@ -47,7 +49,7 @@ void motor_controller_set_voltage(float voltage) {
 }
 
 void motor_controller_set_throttle(float throttle) {
-    motor_controller_throttle = throttle;
+    motor_controller_throttle = clamp(throttle);
 }
 
 void motor_controller_set_stop(bool stop) {
