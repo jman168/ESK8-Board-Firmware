@@ -9,7 +9,7 @@ uint8_t encoder_get_rotor_state() {
   return (digitalRead(HALL_A)) + (digitalRead(HALL_B)<<1) + (digitalRead(HALL_C)<<2);
 }
 
-void encoder_update() {
+IRAM_ATTR void encoder_update() {
     unsigned long time = micros();
     double deltaT = (time-encoder_last_count)/1000000.0;
     encoder_last_count = time;

@@ -12,7 +12,7 @@ float battery_get_voltage() {
     }
 
     float value = total/10.0;
-    return (value/4095.0)*MAX_BATTERY_SENSE_VOLTAGE;
+    return (value/1023.0)*MAX_BATTERY_SENSE_VOLTAGE;
 }
 
 float battery_get_charge() {

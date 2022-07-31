@@ -1,5 +1,7 @@
 #include "MotorController.h"
 
+Servo motor_controller_motor;
+
 float motor_controller_throttle = 0.0;
 
 float clamp(float input, float minV = -1.0, float maxV = 1.0) {
@@ -11,8 +13,7 @@ float motor_controller_mps_to_voltage(float mps) {
 }
 
 void motor_controller_init() {
-    ledcAttachPin(MOTOR_PIN, PWM1_CH);
-    ledcSetup(PWM1_CH, PWM1_FREQ, PWM1_RES);
+    motor_controller_motor.attach(MOTOR_PIN);
 }
 
 void motor_controller_update() {
@@ -21,9 +22,9 @@ void motor_controller_update() {
 
 void motor_controller_set_voltage(float voltage) {
     float power = ( voltage/BATTERY_VOLTAGE + 1.0 ) / 2.0;
-    uint32_t duty = MIN_DUTY + (MAX_DUTY-MIN_DUTY) * power;
+    int MS = MIN_MS + (MAX_MS-MIN_MS) * power;
 
-    ledcWrite(PWM1_CH, duty);
+    motor_controller_motor.writeMicroseconds(MS);
 }
 
 void motor_controller_set_throttle(float throttle) {

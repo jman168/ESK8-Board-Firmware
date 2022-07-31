@@ -20,8 +20,6 @@ void loop() {
   motor_controller_set_throttle(remote_get_throttle());
   motor_controller_update();
 
-  Serial.println(remote_is_connected());
-
   remote_set_speed(encoder_get_speed_mph());
   remote_set_battery(battery_get_charge());
 }
