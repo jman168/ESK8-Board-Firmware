@@ -15,6 +15,8 @@ void setup() {
 }
 
 void loop() {
+  encoder_update();
+  
   remote_update();
   
   motor_controller_set_throttle(remote_get_throttle());
