@@ -1,12 +1,10 @@
 #pragma once
 
 #include <Arduino.h>
-#include <functional>
-#include "FunctionalInterrupt.h"
 
-#define HALL_A 25
-#define HALL_B 26
-#define HALL_C 27
+#define HALL_A D5
+#define HALL_B D6
+#define HALL_C D7
 
 #define COUNTS_PER_METER 568.183146838
 #define COUNTS_PER_MILE 914402.139309818

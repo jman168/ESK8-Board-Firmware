@@ -1,61 +1,51 @@
 #include "Remote.h"
 
-struct remote_ack_packet_t {
+unsigned char REMOTE_ADDRESS[] = {0xBC, 0xDD, 0xC2, 0x2D, 0x1D, 0xBD};
+
+struct remote_status_packet_t {
     float speed;
     float battery;
 };
 
-struct remote_controller_packet_t {
+struct remote_control_packet_t {
     float throttle;
 };
 
-RF24 *remote_radio;
 
 float remote_throttle;
 float remote_battery = 0.0;
 float remote_speed = 0.0;
 unsigned long remote_last_packet = 0;
+unsigned long remote_last_transmit = 0;
 
-const char remote_board_addr[6] = "BESK8"; // board address
-const char remote_remote_addr[6] = "RESK8"; // remote address
+remote_status_packet_t remote_tx_packet;
+remote_control_packet_t remote_rx_packet;
 
-void remote_write_ack_packet() {
-    remote_ack_packet_t ack_packet;
-    ack_packet.battery = remote_battery;
-    ack_packet.speed = remote_speed;
-    remote_radio->writeAckPayload(1, &ack_packet, sizeof(ack_packet));
+void remote_on_data(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
+    remote_last_packet = millis();
+    memcpy(&remote_rx_packet, incomingData, sizeof(remote_rx_packet));
+    remote_throttle = remote_rx_packet.throttle;
 }
 
 void remote_init() {
-    remote_radio = new RF24(22, 21);
+    WiFi.mode(WIFI_STA);
 
-    if(!remote_radio->begin()) {
-        Serial.println("Radio hardware is not responding!!");
-        while(true) {}
+    if (esp_now_init() != 0) {
+        Serial.println("Error initializing ESP-NOW");
+        while(true) {};
     }
 
-    remote_radio->setPALevel(RF24_PA_HIGH);
-
-    remote_radio->enableDynamicPayloads();
-
-    remote_radio->enableAckPayload();
-
-    remote_radio->openWritingPipe((const uint8_t*)&remote_remote_addr);
-    remote_radio->openReadingPipe(1, (const uint8_t*)&remote_board_addr);
-
-    remote_write_ack_packet();
-
-    remote_radio->startListening();
+    esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
+    esp_now_add_peer(REMOTE_ADDRESS, ESP_NOW_ROLE_COMBO, 1, NULL, 0);
+    esp_now_register_recv_cb(remote_on_data);
 }
 
 void remote_update() {
-    uint8_t pipe;
-    if (remote_radio->available(&pipe)) {
-        remote_last_packet = millis();
-        remote_controller_packet_t packet;
-        remote_radio->read(&packet, sizeof(packet));
-        remote_throttle = packet.throttle;
-        remote_write_ack_packet();
+    unsigned long time = millis();
+
+    if(time-remote_last_transmit >= 20) {
+        esp_now_send(REMOTE_ADDRESS, (uint8_t *)&remote_tx_packet, sizeof(remote_tx_packet));
+        remote_last_transmit = time;
     }
 }
 
