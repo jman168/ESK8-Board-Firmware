@@ -44,6 +44,8 @@ void remote_update() {
     unsigned long time = millis();
 
     if(time-remote_last_transmit >= 20) {
+        remote_tx_packet.speed = remote_speed;
+        remote_tx_packet.battery = remote_battery;
         esp_now_send(REMOTE_ADDRESS, (uint8_t *)&remote_tx_packet, sizeof(remote_tx_packet));
         remote_last_transmit = time;
     }
