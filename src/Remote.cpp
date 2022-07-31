@@ -5,12 +5,12 @@ unsigned char REMOTE_ADDRESS[] = {0xBC, 0xDD, 0xC2, 0x2D, 0x1D, 0xBD};
 struct remote_status_packet_t {
     float speed;
     float battery;
+    bool connection;
 };
 
 struct remote_control_packet_t {
     float throttle;
 };
-
 
 float remote_throttle;
 float remote_battery = 0.0;
@@ -46,6 +46,7 @@ void remote_update() {
     if(time-remote_last_transmit >= 20) {
         remote_tx_packet.speed = remote_speed;
         remote_tx_packet.battery = remote_battery;
+        remote_tx_packet.connection = remote_is_connected();
         esp_now_send(REMOTE_ADDRESS, (uint8_t *)&remote_tx_packet, sizeof(remote_tx_packet));
         remote_last_transmit = time;
     }
