@@ -66,27 +66,3 @@ float encoder_get_speed_mps();
  * @return float 
  */
 float encoder_get_speed_mph();
-
-class Encoder {
-    public:
-        Encoder();
-
-        double getPositionMeters();
-        double getPositionMiles();
-
-        double getSpeedMPS();
-        double getSpeedMPH();
-
-    private:
-        uint8_t _currentRotorState;
-        unsigned long _lastCount = 0;
-        long _rotorPosition = 0;
-        double _countsPerSecond = 0;
-
-    private:
-
-        void updateEncoder();
-
-        uint8_t getRotorState();
-};
-
