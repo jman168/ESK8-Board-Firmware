@@ -9,6 +9,8 @@
 #define COUNTS_PER_METER 568.183146838
 #define COUNTS_PER_MILE 914402.139309818
 
+#define SPEED_UPDATE_PERIOD 20000
+
 const uint8_t NEXT_HALL_STATE[7] = {
     0b00000000, // 00000000
     0b00000011, // 00000001
@@ -34,6 +36,12 @@ const uint8_t PREV_HALL_STATE[7] = {
  * 
  */
 void encoder_init();
+
+/**
+ * @brief Updates the encoders speed. Must be called periodically.
+ * 
+ */
+void encoder_update();
 
 /**
  * @brief Gets the position of the board in meters.

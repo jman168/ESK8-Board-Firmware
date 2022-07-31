@@ -14,6 +14,9 @@
 #define MOTOR_KV 0.51306 // NOTE: this is meters per second per volt NOT rpm per volt
 #define MAX_VOLTAGE 12.0
 
+#define STOPPED_THRESHOLD 0.5
+#define STOP_VOLTAGE 3.0
+
 /**
  * @brief Initializes the motor controller.
  * 
@@ -39,3 +42,11 @@ void motor_controller_set_voltage(float voltage);
  * @param throttle 
  */
 void motor_controller_set_throttle(float throttle);
+
+/**
+ * @brief Sets weather or not to stop the board. This will slowly bring the board to a stop and then apply full break. Useful for emergency stops.
+ * NOTE: Throttle will not to anything when in a stop state.
+ * 
+ * @param stop 
+ */
+void motor_controller_set_stop(bool stop);
