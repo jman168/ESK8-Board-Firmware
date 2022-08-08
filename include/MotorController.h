@@ -4,7 +4,7 @@
 #include "PIDController.h"
 
 #define MOTOR_KV 487.0
-#define MAX_VOLTAGE 3.0
+#define MAX_VOLTAGE 7.5
 
 #define STOPPED_THRESHOLD 400.0
 
