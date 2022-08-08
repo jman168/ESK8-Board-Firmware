@@ -1,27 +1,21 @@
 #pragma once
 
-#include <Servo.h>
+#include "SparkMax.h"
+#include "PIDController.h"
 
-#include "Encoder.h"
+#define MOTOR_KV 473.0
+#define MAX_VOLTAGE 3.0
 
-#define MOTOR_PIN D1
+#define STOPPED_THRESHOLD 400.0
+#define BREAKING_CURRENT 10.0
 
-#define MIN_MS 1000
-#define MAX_MS 2000
-#define MAX_DELTA_V 6.0
-
-#define BATTERY_VOLTAGE 24.0
-#define MOTOR_KV 0.51306 // NOTE: this is meters per second per volt NOT rpm per volt
-#define MAX_VOLTAGE 12.0
-
-#define STOPPED_THRESHOLD 0.5
-#define STOP_VOLTAGE 3.0
+#define MAX_CURRENT 50.0
 
 /**
  * @brief Initializes the motor controller.
  * 
  */
-void motor_controller_init();
+void motor_controller_init(SparkMax *spark);
 
 /**
  * @brief Updates the motor controller (should be called periodically to ensure smooth operation).
@@ -37,11 +31,18 @@ void motor_controller_update();
 void motor_controller_set_voltage(float voltage);
 
 /**
- * @brief Applies a throttle to the motor controller. This approximates a torque or a current applied to the motor phase.
+ * @brief Sets the throttle output of the motor controller.
  * 
  * @param throttle 
  */
 void motor_controller_set_throttle(float throttle);
+
+/**
+ * @brief Gets the signed current applied to the motor phases.
+ * 
+ * @return float 
+ */
+float motor_controller_get_signed_current();
 
 /**
  * @brief Sets weather or not to stop the board. This will slowly bring the board to a stop and then apply full break. Useful for emergency stops.
