@@ -3,11 +3,10 @@
 #include "SparkMax.h"
 #include "PIDController.h"
 
-#define MOTOR_KV 473.0
+#define MOTOR_KV 487.0
 #define MAX_VOLTAGE 3.0
 
 #define STOPPED_THRESHOLD 400.0
-#define BREAKING_CURRENT 10.0
 
 #define MAX_CURRENT 50.0
 
