@@ -11,6 +11,7 @@
 #define RPM_TO_MPH_FACTOR 0.002755899
 
 SparkMax *spark;
+MotorController *controller;
 
 float getCharge();
 
@@ -22,14 +23,14 @@ void setup() {
   spark = new SparkMax(1);
 
   remote_init();
-  motor_controller_init(spark);
+  controller = new MotorController(spark);
 }
 
 void loop() {  
   FRCCan.handle();
   remote_update();
   
-  motor_controller_set_throttle(remote_get_throttle());
+  controller->setThrottle(remote_get_throttle());
 
   if(remote_is_connected()) {
     FRCCan.enable();
@@ -41,7 +42,7 @@ void loop() {
   remote_set_speed(spark->getVelocity() * RPM_TO_MPH_FACTOR);
   remote_set_battery(getCharge());
 
-  motor_controller_update();
+  controller->update();
 }
 
 float getCharge() {
