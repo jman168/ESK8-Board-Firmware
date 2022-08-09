@@ -37,6 +37,7 @@ void loop() {
   }    
   else {
     FRCCan.disable();
+    controller->reset();
   }
 
   remote_set_speed(spark->getVelocity() * RPM_TO_MPH_FACTOR);

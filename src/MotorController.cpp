@@ -13,6 +13,7 @@ void MotorController::update() {
     float pidOutput = _currentController.compute(current);
 
     if(_throttle == 0.0 && abs(_spark->getVelocity()) < STOPPED_THRESHOLD) {
+        reset();
         setVoltage(0.0);
     }
 
@@ -42,4 +43,8 @@ float MotorController::getSignedCurrent() {
     } else {
         return _spark->getOutputCurrent();
     }
+}
+
+void MotorController::reset() {
+    _currentController.reset();
 }

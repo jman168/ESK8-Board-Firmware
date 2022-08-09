@@ -32,3 +32,9 @@ double PIDController::compute(double feedback) {
 
     return _proportionalTerm + _integralTerm + _derivativeTerm;
 }
+
+void PIDController::reset() {
+    _setPoint = 0.0;
+    _lastError = 0.0;
+    _integralTerm = 0.0;
+}

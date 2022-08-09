@@ -29,6 +29,12 @@ class PIDController {
          */
         double compute(double feedback);
 
+        /**
+         * @brief Resets the PID loop to how it was when initialized.
+         * 
+         */
+        void reset();
+
     private:
         unsigned long lastCompute = 0.0;
 

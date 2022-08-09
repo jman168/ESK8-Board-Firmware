@@ -45,6 +45,12 @@ class MotorController {
          */
         float getSignedCurrent();
 
+        /**
+         * @brief Resets the PID loops.
+         * 
+         */
+        void reset();
+
     private:
         PIDController _currentController; // current PID loop
         SparkMax *_spark; // spark max
