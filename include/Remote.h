@@ -29,6 +29,13 @@ float remote_get_throttle();
 void remote_set_battery(float battery);
 
 /**
+ * @brief Sets the motor temperature in celsius to be sent to the remote.
+ * 
+ * @param temp 
+ */
+void remote_set_motor_temperature(uint8_t temp);
+
+/**
  * @brief Sets the speed (in miles per hour) to be sent to the remote.
  * 
  */

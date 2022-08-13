@@ -5,6 +5,7 @@ unsigned char REMOTE_ADDRESS[] = {0xBC, 0xDD, 0xC2, 0x2D, 0x1D, 0xBD};
 struct remote_status_packet_t {
     float speed;
     float battery;
+    uint8_t motor_temp;
     bool connection;
 };
 
@@ -15,6 +16,7 @@ struct remote_control_packet_t {
 float remote_throttle;
 float remote_battery = 0.0;
 float remote_speed = 0.0;
+uint8_t remote_motor_temp = 0;
 unsigned long remote_last_packet = 0;
 unsigned long remote_last_transmit = 0;
 
@@ -46,6 +48,7 @@ void remote_update() {
     if(time-remote_last_transmit >= 20) {
         remote_tx_packet.speed = remote_speed;
         remote_tx_packet.battery = remote_battery;
+        remote_tx_packet.motor_temp = remote_motor_temp;
         remote_tx_packet.connection = remote_is_connected();
         esp_now_send(REMOTE_ADDRESS, (uint8_t *)&remote_tx_packet, sizeof(remote_tx_packet));
         remote_last_transmit = time;
@@ -58,6 +61,10 @@ float remote_get_throttle() {
 
 void remote_set_battery(float battery) {
     remote_battery = battery;
+}
+
+void remote_set_motor_temperature(uint8_t temp) {
+    remote_motor_temp = temp;
 }
 
 void remote_set_speed(float speed) {

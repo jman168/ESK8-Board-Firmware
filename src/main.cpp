@@ -42,6 +42,7 @@ void loop() {
 
   remote_set_speed(spark->getVelocity() * RPM_TO_MPH_FACTOR);
   remote_set_battery(getCharge());
+  remote_set_motor_temperature(spark->getMotorTemperature());
 
   controller->update();
 }
