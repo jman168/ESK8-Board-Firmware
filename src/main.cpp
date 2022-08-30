@@ -5,7 +5,7 @@
 #include "SparkMax.h"
 #include "MotorController.h"
 
-#define MIN_BATTERY_VOLTAGE 18.0
+#define MIN_BATTERY_VOLTAGE 20.5
 #define MAX_BATTERY_VOLTAGE 24.8
 
 #define RPM_TO_MPH_FACTOR 0.002755899
