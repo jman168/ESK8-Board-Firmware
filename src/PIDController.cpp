@@ -11,6 +11,10 @@ void PIDController::set(double setPoint) {
     _setPoint = setPoint;
 }
 
+void PIDController::setIntegrator(double integrator) {
+    _integralTerm = integrator;
+}
+
 double PIDController::compute(double feedback) {
     unsigned long time = micros();
     double deltaT = (time-lastCompute)/1000000.0;

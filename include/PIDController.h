@@ -15,11 +15,18 @@ class PIDController {
         PIDController(double p, double i, double d, double iZone);
 
         /**
-         * @brief Sets the set piont of the controller.
+         * @brief Sets the set point of the controller.
          * 
          * @param setPoint 
          */
         void set(double setPoint);
+
+        /**
+         * @brief Sets the integrator of the controller.
+         * 
+         * @param integrator 
+         */
+        void setIntegrator(double integrator);
 
         /**
          * @brief Computes the output of the controller based on the given feedback or input to the controller.

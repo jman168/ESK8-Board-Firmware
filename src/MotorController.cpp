@@ -8,16 +8,49 @@ MotorController::MotorController(SparkMax *spark): _currentController(CURRENT_P,
     _spark = spark;
 }
 
+// void MotorController::update() {
+//     float current = getSignedCurrent();
+//     float pidOutput = _currentController.compute(current);
+
+//     if(_throttle == 0.0 && abs(_spark->getVelocity()) < STOPPED_THRESHOLD) {
+//         reset();
+//         setVoltage(0.0);
+//     }
+
+//     else {
+//         setVoltage(pidOutput);
+//     }
+// }
+
 void MotorController::update() {
     float current = getSignedCurrent();
     float pidOutput = _currentController.compute(current);
+    float velocity = _spark->getVelocity();
 
-    if(_throttle == 0.0 && abs(_spark->getVelocity()) < STOPPED_THRESHOLD) {
-        reset();
-        setVoltage(0.0);
+    if(abs(velocity) < STOPPED_THRESHOLD) { // if board is stopped
+        if(_throttle == 0.0) {
+            setVoltage(0.0);
+            _currentController.setIntegrator(0.0);
+        } else {
+            setVoltage(pidOutput);
+        }
     }
 
-    else {
+    // pulse width module a voltage between 0.0V and the computed free spin voltage
+    else if(_brake > 0.0) { // if breaking
+        double voltage = velocity / MOTOR_KV;
+        _currentController.setIntegrator(voltage);        
+
+        if(velocity > 0.0) {
+            voltage -= BRAKE_VOLTAGE*_brake;
+        } if(velocity < 0.0) {
+            voltage += BRAKE_VOLTAGE*_brake;
+        }
+        
+        setVoltage(voltage);
+    }
+
+    else { // if accelerating
         setVoltage(pidOutput);
     }
 }
@@ -30,7 +63,28 @@ void MotorController::setVoltage(float voltage) {
 }
 
 void MotorController::setThrottle(float throttle) {
-    _throttle = throttle;
+    float velocity = _spark->getVelocity();
+
+    if(velocity > STOPPED_THRESHOLD) { // if rolling forwards
+        if(throttle >= 0.0) {
+            _throttle = throttle;
+            _brake = 0.0;
+        } else {
+            _throttle = 0.0;
+            _brake = -throttle;
+        }
+    } else if(velocity < -STOPPED_THRESHOLD) { // if rolling backwards
+        if(throttle >= 0.0) {
+            _throttle = 0.0;
+            _brake = throttle;
+        } else {
+            _throttle = throttle;
+            _brake = 0.0;
+        }
+    } else { // if the board is stopped
+        _throttle = throttle;
+    }
+
     _currentController.set(_throttle*MAX_CURRENT);
 }
 

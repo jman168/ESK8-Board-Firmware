@@ -4,15 +4,16 @@
 #include "PIDController.h"
 
 #define MOTOR_KV 487.0
-#define MAX_VOLTAGE 7.5
+#define MAX_VOLTAGE 11.0
 
 #define CURRENT_P 0.0
-#define CURRENT_I 0.4
+#define CURRENT_I 1.6
 #define CURRENT_D 0.0
 
 #define STOPPED_THRESHOLD 400.0
 
-#define MAX_CURRENT 50.0
+#define MAX_CURRENT 45.0
+#define BRAKE_VOLTAGE 2.5
 
 class MotorController {
     public:
@@ -56,5 +57,6 @@ class MotorController {
         SparkMax *_spark; // spark max
 
         float _throttle = 0.0; // the set throttle
+        float _brake = 0.0;
         float _setVoltage = 0.0; // the set voltage
 };
