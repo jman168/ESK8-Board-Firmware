@@ -72,5 +72,5 @@ void remote_set_speed(float speed) {
 }
 
 bool remote_is_connected() {
-    return !((millis() - remote_last_packet) >= 100);
+    return !((millis() - remote_last_packet) >= 250);
 }
